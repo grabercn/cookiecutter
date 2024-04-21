@@ -1,4 +1,4 @@
-FROM python:3.13.0a6-bookworm
+FROM python:3.10-bookworm
 
 # Set the working directory
 WORKDIR /workspace
