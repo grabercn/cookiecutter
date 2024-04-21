@@ -96,6 +96,18 @@ def apply_overwrites_to_context(
                 context_value, overwrite, in_dictionary_variable=True
             )
             context[variable] = context_value
+
+        elif isinstance(context_value, bool) and isinstance(overwrite, str):
+            if overwrite.lower() == "false":
+                context[variable] = False
+            elif overwrite.lower() == "true":
+                context[variable] = True
+            else:
+                raise ValueError(
+                    f"{overwrite} provided for choice variable "
+                    f"{variable}, but the choices are {context_value}."
+                )
+
         else:
             # Simply overwrite the value for this variable
             context[variable] = overwrite

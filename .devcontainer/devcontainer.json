@@ -11,7 +11,8 @@
       },
       "extensions": [
         "ms-python.python",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.makefile-tools"
       ]
     }
   },
@@ -19,8 +20,5 @@
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "forwardPorts": [],
-  "postCreateCommand": "",
-  "runArgs": [
-    "--rm"
-  ]
+  "postCreateCommand": ""
 }
