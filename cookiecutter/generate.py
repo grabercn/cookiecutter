@@ -98,17 +98,15 @@ def apply_overwrites_to_context(
             context[variable] = context_value
 
         elif isinstance(context_value, bool) and isinstance(overwrite, str):
-            try:
-                if overwrite.lower() == "false":
-                    context[variable] = False
-                elif overwrite.lower() == "true":
-                    context[variable] = True
-                else:
-                    raise ValueError
-            except ValueError as error:
+            if overwrite.lower() == "false":
+                context[variable] = False
+            elif overwrite.lower() == "true":
+                context[variable] = True
+            else:
                 raise ValueError(
                     f"Invalid boolean value '{overwrite}' for variable '{variable}'"
-                ) from error
+                )
+
         else:
             # Simply overwrite the value for this variable
             context[variable] = overwrite
