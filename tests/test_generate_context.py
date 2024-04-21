@@ -9,6 +9,14 @@ import pytest
 from cookiecutter import generate
 from cookiecutter.exceptions import ContextDecodingException
 
+context = {"project_name": "test_boolean", "generate_text": "true"}
+
+overwrite_context_true = {"generate_text": "true"}
+overwrite_context_false = {"generate_text": "false"}
+overwrite_context_invalid = {"generate_text": "huehuehue"}
+
+true_str = "true"
+
 
 def context_data():
     """Generate pytest parametrization variables for test.
@@ -362,3 +370,36 @@ def test_apply_overwrites_in_nested_dict_additional_values():
     )
 
     assert generated_context == expected_context
+
+
+def test_apply_overwrites_to_context_converts_true_string_cli_input_to_bool_false():
+    context = {'key': False}
+    overwrite_context = {'key': "true"}
+    expected_context = {'key': True}
+    generate.apply_overwrites_to_context(context, overwrite_context)
+
+    assert context == expected_context
+
+
+def test_apply_overwrites_to_context_converts_true_string_cli_input_to_bool_true():
+    context = {'key': True}
+    overwrite_context = {'key': "false"}
+    expected_context = {'key': False}
+    generate.apply_overwrites_to_context(context, overwrite_context)
+
+    assert context == expected_context
+
+
+def test_apply_overwrites_to_context_checks_for_invalid_bool_output():
+    """Verify `apply_overwrites_to_context` converts string CLI input to bool."""
+
+    context = {'key': True}
+    overwrite_context_invalid = {"key": "huehuehue"}
+
+    generate.apply_overwrites_to_context(context, overwrite_context_invalid)
+
+    with pytest.raises(
+        ValueError,
+        match=f"Invalid boolean value '{overwrite_context_invalid['generate_text']}' for variable '{context['generate_text']}'",
+    ):
+        generate.apply_overwrites_to_context(context, overwrite_context_invalid)
