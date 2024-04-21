@@ -9,6 +9,7 @@ import pytest
 from cookiecutter import generate
 from cookiecutter.exceptions import ContextDecodingException
 
+
 def context_data():
     """Generate pytest parametrization variables for test.
 
@@ -385,12 +386,11 @@ def test_apply_overwrites_to_context_checks_for_invalid_bool_output():
     """Verify `apply_overwrites_to_context` converts string CLI input to bool."""
 
     context = {'key': True}
-    overwrite_context_invalid = {"key": "huehuehue"}
-
-    generate.apply_overwrites_to_context(context, overwrite_context_invalid)
+    overwrite_context_invalid = {'key': 'huehuehue'}
 
     with pytest.raises(
         ValueError,
-        match=f"Invalid boolean value '{overwrite_context_invalid['key']}' for variable '{context['key']}'",
+        match=f"{overwrite_context_invalid['key']} provided for choice variable "
+        f"key, but the choices are {context['key']}.",
     ):
         generate.apply_overwrites_to_context(context, overwrite_context_invalid)
