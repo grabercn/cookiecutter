@@ -104,7 +104,8 @@ def apply_overwrites_to_context(
                 context[variable] = True
             else:
                 raise ValueError(
-                    f"Invalid boolean value '{overwrite}' for variable '{variable}'"
+                    f"{overwrite} provided for choice variable "
+                    f"{variable}, but the choices are {context_value}."
                 )
 
         else:
