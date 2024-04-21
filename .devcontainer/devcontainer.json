@@ -20,8 +20,5 @@
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "forwardPorts": [],
-  "postCreateCommand": "",
-  "runArgs": [
-    "--rm"
-  ]
+  "postCreateCommand": ""
 }
