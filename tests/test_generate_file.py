@@ -193,3 +193,17 @@ def test_generate_file_handles_mixed_line_endings(env, tmp_path):
         simple_text = f.readline()
     assert simple_text in ('newline is CRLF\r\n', 'newline is CRLF\n')
     assert f.newlines in ('\r\n', '\n')
+
+
+def test_generate_file_handles_key_values_enclosed_in_double_quotes(env):
+    """Verify that file generation handles key values enclosed in quotes."""
+    infile = 'tests/files/{{cookiecutter.generate_file}}.txt'
+    generate.generate_file(
+        project_dir=".",
+        infile=infile,
+        context={'cookiecutter': {'generate_file': '"cheese"'}},
+        env=env,
+    )
+    assert os.path.isfile('tests/files/"cheese".txt')
+    generated_text = Path('tests/files/"cheese".txt').read_text()
+    assert generated_text == 'Testing cheese'
