@@ -218,6 +218,16 @@ def generate_file(project_dir, infile, context, env, skip_if_file_exists=False):
         # information about syntax error location
         exception.translated = False
         raise
+    
+    cookie_cutter_value = context["cookiecutter"]
+
+    for key in cookie_cutter_value.keys():
+        if (isinstance(cookie_cutter_value[key], str)):
+            if ((cookie_cutter_value[key].startswith("'")) and (cookie_cutter_value[key].endswith("'"))) or ((cookie_cutter_value[key].startswith('"')) and (cookie_cutter_value[key].endswith('"'))):
+                cookie_cutter_value.update({key: cookie_cutter_value[key][1:-1]})
+
+    context.update({"cookiecutter": cookie_cutter_value})
+
     rendered_file = tmpl.render(**context)
 
     if context['cookiecutter'].get('_new_lines', False):
